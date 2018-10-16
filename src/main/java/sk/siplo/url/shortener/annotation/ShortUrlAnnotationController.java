@@ -10,7 +10,7 @@ import sk.siplo.url.shortener.service.UrlService;
 
 @RestController
 @RequestMapping
-public class ShortUrlAnnotationHandler {
+public class ShortUrlAnnotationController {
 
     @Autowired
     UrlService urlService;

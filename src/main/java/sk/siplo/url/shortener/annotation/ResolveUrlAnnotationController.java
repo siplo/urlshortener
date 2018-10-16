@@ -15,12 +15,12 @@ import sk.siplo.url.shortener.service.UrlService;
 
 @RestController
 @RequestMapping
-public class ResolveUrlAnnotationHandler {
+public class ResolveUrlAnnotationController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ResolveUrlAnnotationHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResolveUrlAnnotationController.class);
     private UrlService urlService;
 
-    public ResolveUrlAnnotationHandler(UrlService urlService) {
+    public ResolveUrlAnnotationController(UrlService urlService) {
         this.urlService = urlService;
     }
 
