@@ -1,7 +1,6 @@
 package sk.siplo.url.shortener.router;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.TEXT_PLAIN;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 
 import java.security.NoSuchAlgorithmException;
@@ -15,8 +14,8 @@ import org.springframework.web.reactive.function.server.HandlerFilterFunction;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import sk.siplo.url.shortener.handler.CreateUrlHandler;
 import sk.siplo.url.shortener.handler.ResolveUrlHandler;
+import sk.siplo.url.shortener.handler.ShortUrlHandler;
 
 /**
  * Created by siplo on 11/10/2018.
@@ -26,17 +25,16 @@ import sk.siplo.url.shortener.handler.ResolveUrlHandler;
     private static Logger LOG = LoggerFactory.getLogger(UrlShortenerlRoutereConfig.class);
 
     @Bean
-    public RouterFunction<ServerResponse> route(CreateUrlHandler createUrlHandler, ResolveUrlHandler resolveUrlHandler)
+    public RouterFunction<ServerResponse> route(ShortUrlHandler shortUrlHandler, ResolveUrlHandler resolveUrlHandler)
             throws NoSuchAlgorithmException {
 
         return RouterFunctions.route(POST("/url").and(accept(APPLICATION_JSON)).and(contentType(APPLICATION_JSON)),
-                createUrlHandler::create)
+                shortUrlHandler::create)
                 .andRoute(PUT("/url/{id}").and(accept(APPLICATION_JSON)).and(contentType(APPLICATION_JSON)),
-                        createUrlHandler::update)
-                .andRoute(GET("/resolve/{id}").and(accept(APPLICATION_JSON)), resolveUrlHandler::resolve)
-                .andRoute(GET("/resolve").and(accept(APPLICATION_JSON)), resolveUrlHandler::findAllUrls)
-                .andRoute(GET("/resolve/{id}").and(accept(TEXT_PLAIN)), resolveUrlHandler::goToDestination)
-                .filter(wrongArgument());
+                        shortUrlHandler::update)
+                .andRoute(GET("/url/{id}").and(accept(APPLICATION_JSON)), shortUrlHandler::resolve)
+                .andRoute(GET("/url").and(accept(APPLICATION_JSON)), shortUrlHandler::findAllUrls)
+                .andRoute(GET("/resolve/{id}"), resolveUrlHandler::goToDestination);
     }
 
     private HandlerFilterFunction<ServerResponse, ServerResponse> wrongArgument() {
@@ -47,4 +45,5 @@ import sk.siplo.url.shortener.handler.ResolveUrlHandler;
 
         });
     }
+
 }

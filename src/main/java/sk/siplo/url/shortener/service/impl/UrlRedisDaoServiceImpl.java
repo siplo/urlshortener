@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -16,7 +15,6 @@ import sk.siplo.url.shortener.service.UrlDaoService;
 /**
  * Created by siplo on 11/10/2018.
  */
-@Primary
 @Service
 public class UrlRedisDaoServiceImpl implements UrlDaoService {
 

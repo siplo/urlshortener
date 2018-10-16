@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import sk.siplo.url.shortener.model.ShortUrl;
 import sk.siplo.url.shortener.service.UrlService;
 
 @Component public class ResolveUrlHandler {
@@ -36,16 +34,7 @@ import sk.siplo.url.shortener.service.UrlService;
                         .body(Mono.just(e.getMessage()), String.class));
     }
 
-    public Mono<ServerResponse> findAllUrls(ServerRequest request) {
-        Flux<ShortUrl> retVal = urlService.findAllUrls();
-        return retVal.collectList().flatMap(list -> {
-            list.forEach(t -> LOG.debug("url from storage: {}", t));
-            return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromObject(list))
-                    .onErrorResume(Exception.class, (e) -> ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body(Mono.just(e.getMessage()), String.class));
-        });
 
-    }
 
     public Mono<ServerResponse> goToDestination(ServerRequest request) {
         String urlId = String.valueOf(request.pathVariable("id"));

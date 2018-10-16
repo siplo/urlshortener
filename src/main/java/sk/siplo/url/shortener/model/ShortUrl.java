@@ -18,10 +18,11 @@ import org.springframework.data.redis.core.RedisHash;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ShortUrl {
 
+    @Id
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Id
+
     @Column(unique = true)
     private String urlHash;
     private Date createdAt;

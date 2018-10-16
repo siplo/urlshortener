@@ -1,6 +1,7 @@
 package sk.siplo.url.shortener.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -10,7 +11,7 @@ import sk.siplo.url.shortener.service.UrlDaoService;
 /**
  * Created by siplo on 13/10/2018.
  */
-
+@Primary
 @Service
 public class UrlJpaDaoServiceImpl implements UrlDaoService {
 
@@ -39,10 +40,10 @@ public class UrlJpaDaoServiceImpl implements UrlDaoService {
 
     @Override
     public Mono<ShortUrl> updateUrl(String id, ShortUrl url) {
-        if (repository.existsById(id)) {
+        if (repository.findByurlHash(id) != null) {
             return Mono.just(repository.save(url));
         }
-        return Mono.error(new RuntimeException("Not foud"));
+        return Mono.error(new RuntimeException("Not found"));
     }
 
     @Override
