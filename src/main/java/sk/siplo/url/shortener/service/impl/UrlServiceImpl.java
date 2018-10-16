@@ -2,6 +2,7 @@ package sk.siplo.url.shortener.service.impl;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -21,7 +22,8 @@ import sk.siplo.url.shortener.service.UrlService;
 /**
  * Created by siplo on 11/10/2018.
  */
-@Service public class UrlServiceImpl implements UrlService {
+@Service("urlService")
+public class UrlServiceImpl implements UrlService {
 
     private static final Logger LOG = LoggerFactory.getLogger(UrlServiceImpl.class);
     private static final String MD_5 = "MD5";
@@ -44,7 +46,8 @@ import sk.siplo.url.shortener.service.UrlService;
                             } else {
                                 throw new RuntimeException("Can not insert url");
                             }
-                        }).switchIfEmpty(Mono.empty()));
+                        }).onErrorMap(SQLException.class,
+                                e -> new IllegalArgumentException("Could not insert into DB")));
 
         return createdUrl;
     }
@@ -96,12 +99,6 @@ import sk.siplo.url.shortener.service.UrlService;
     }
 
     private String createUniqueUrl(String urlFromWeb) {
-        MessageDigest digest = createMessageDigest(urlFromWeb);
-        digest.update(urlFromWeb.getBytes());
-        return DatatypeConverter.printHexBinary(digest.digest());
-    }
-
-    private MessageDigest createMessageDigest(String urlFromWeb) {
         MessageDigest digest = null;
         try {
             digest = MessageDigest.getInstance(MD_5);
@@ -109,7 +106,8 @@ import sk.siplo.url.shortener.service.UrlService;
             LOG.warn("Could not obtain MD5 message digest", e);
             throw new RuntimeException("Could not create unique url for : " + urlFromWeb);
         }
-        return digest;
+        digest.update(urlFromWeb.getBytes());
+        return DatatypeConverter.printHexBinary(digest.digest());
     }
 
     @Override

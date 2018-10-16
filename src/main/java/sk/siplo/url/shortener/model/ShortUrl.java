@@ -3,14 +3,28 @@ package sk.siplo.url.shortener.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 /**
  * Created by siplo on 11/10/2018.
  */
-@JsonIgnoreProperties(ignoreUnknown = true) public class ShortUrl {
-    private Date createdAt;
+@Entity
+@RedisHash("urls")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ShortUrl {
+
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Id
+    @Column(unique = true)
     private String urlHash;
+    private Date createdAt;
     private boolean isValid;
     private String createdUrl;
     private String originalUrl;

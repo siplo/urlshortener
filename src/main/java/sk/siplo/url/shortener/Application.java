@@ -12,7 +12,9 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 /**
  * Created by siplo on 11/10/2018.
  */
-@EnableScheduling @EnableWebFlux @SpringBootApplication(exclude = {RedisAutoConfiguration.class})
+@EnableScheduling
+@EnableWebFlux
+@SpringBootApplication(exclude = {RedisAutoConfiguration.class})
 public class Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);
