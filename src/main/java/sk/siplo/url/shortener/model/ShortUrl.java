@@ -18,15 +18,15 @@ import java.util.UUID;
     public ShortUrl() {
     }
 
-    public ShortUrl(Date createdAt, String urlHash, boolean isValid, String url) {
+    public ShortUrl(Date createdAt, String urlHash, boolean isValid, String originalUrl) {
         this.createdAt = createdAt;
         this.urlHash = urlHash;
         this.isValid = isValid;
-        this.createdUrl = url;
+        this.originalUrl = originalUrl;
     }
 
     public ShortUrl(String url) {
-        this.createdUrl = url;
+        this.originalUrl = url;
         this.urlHash = UUID.randomUUID().toString();
         this.createdAt = new Date();
         this.isValid = true;
@@ -80,7 +80,8 @@ import java.util.UUID;
         this.originalUrl = originalUrl;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -93,9 +94,7 @@ import java.util.UUID;
         if (isValid != shortUrl.isValid) {
             return false;
         }
-        if (createdAt != null ? !createdAt.equals(shortUrl.createdAt) : shortUrl.createdAt != null) {
-            return false;
-        }
+
         if (id != null ? !id.equals(shortUrl.id) : shortUrl.id != null) {
             return false;
         }
@@ -108,7 +107,8 @@ import java.util.UUID;
         return originalUrl != null ? originalUrl.equals(shortUrl.originalUrl) : shortUrl.originalUrl == null;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         int result = createdAt != null ? createdAt.hashCode() : 0;
         result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (urlHash != null ? urlHash.hashCode() : 0);
@@ -118,8 +118,9 @@ import java.util.UUID;
         return result;
     }
 
-    @Override public String toString() {
-        return "ShortUrl{" + "createdAt=" + createdAt + ", id=" + id + ", uniqueId='" + urlHash + '\'' + ", isValid="
-                + isValid + ", url='" + createdUrl + '\'' + ", originalUrl='" + originalUrl + '\'' + '}';
+    @Override
+    public String toString() {
+        return "ShortUrl{" + "createdAt=" + createdAt + ", id=" + id + ", urlHash='" + urlHash + '\'' + ", isValid="
+                + isValid + ", createdUrl='" + createdUrl + '\'' + ", originalUrl='" + originalUrl + '\'' + '}';
     }
 }

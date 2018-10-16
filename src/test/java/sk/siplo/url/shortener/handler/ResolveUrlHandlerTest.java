@@ -83,7 +83,7 @@ import sk.siplo.url.shortener.service.impl.UrlServiceImpl;
     @Test public void go() throws Exception {
         given(urlService.findUrlById(anyString())).willReturn(Mono.just(OK_URL));
         webTestClient.get().uri("/resolve/{id}", URL_ID).accept(TEXT_PLAIN).exchange().expectStatus()
-                .isPermanentRedirect().expectHeader().valueMatches(HttpHeaders.LOCATION, OK_URL.getOriginalUrl());
+                .isTemporaryRedirect().expectHeader().valueMatches(HttpHeaders.LOCATION, OK_URL.getOriginalUrl());
 
     }
 

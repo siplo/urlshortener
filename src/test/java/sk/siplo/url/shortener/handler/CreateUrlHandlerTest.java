@@ -81,11 +81,12 @@ import sk.siplo.url.shortener.service.impl.UrlServiceImpl;
                 .isEqualTo(CREATE_URL);
     }
 
-    @Test public void update_() throws Exception {
+    @Test
+    public void update_returNullUrl() throws Exception {
         given(urlService.updateUrl(anyString(), any())).willReturn(Mono.empty());
         webTestClient.put().uri("/url/{id}", "uniqueUrlHash").accept(APPLICATION_JSON).contentType(APPLICATION_JSON)
-                .body(BodyInserters.fromObject(CREATE_URL)).exchange().expectStatus().isOk().expectBody(ShortUrl.class)
-                .isEqualTo(CREATE_URL);
+                .body(BodyInserters.fromObject(CREATE_URL)).exchange().expectStatus().isNotFound()
+                .expectBody(String.class).isEqualTo(null);
     }
 
 
