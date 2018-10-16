@@ -39,7 +39,7 @@ import sk.siplo.url.shortener.service.UrlService;
 
     }
 
-    public Mono<ServerResponse> go(ServerRequest request) {
+    public Mono<ServerResponse> goToDestination(ServerRequest request) {
         String urlId = String.valueOf(request.pathVariable("id"));
         LOG.debug("URL id: {}", urlId);
         return ServerResponse.status(HttpStatus.TEMPORARY_REDIRECT)

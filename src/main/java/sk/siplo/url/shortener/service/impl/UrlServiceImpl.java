@@ -16,7 +16,9 @@ import sk.siplo.url.shortener.service.UrlService;
     private static final Logger LOG = LoggerFactory.getLogger(UrlServiceImpl.class);
 
     public Mono<ShortUrl> createShortUrl(Mono<ShortUrl> input) {
-        return Mono.just(new ShortUrl());
+        return input.flatMap(t -> Mono.error(new IllegalArgumentException("url from web is missing")));
+
+
     }
 
     @Override public Mono<ShortUrl> findUrlById(String id) {
