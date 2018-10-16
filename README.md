@@ -1,10 +1,6 @@
 # urlshortener
 Weblfux a reactive example and reactive programming. 
 
-1) Functional endpoints and reactive programming
-
-Standar hello world example/tutorial doesn't contains error handling. It means this is what I have to improve. 
-
 There are two functional controller and two annotated controller. 
 **Functional controller**  
 First one provide methods for manipulate with url - standard CRUD operation. 
@@ -28,5 +24,7 @@ rx-java - provide reactive wrapper on standard JDBC blocking operation. It's kin
  is done by retrieve all url and then filter all which are older then defined time. It could be done by one update command. 
  
   
+**What I have to improve:**
 
-
+1)Error handling in Webflux and also in reactive world :) 
+2) Junit 4/5 - I had real problem with IDE (idea) and Webfluxtest client with Junit5 version. I decied to use Junit4. WebluxClient and functional endpoint also doesn't work as I expected. Look to documentation (not supported).
